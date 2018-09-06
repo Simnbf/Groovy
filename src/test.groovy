@@ -4,12 +4,6 @@ import groovy.json.JsonSlurper
 
 	def greeting = "Hello World, I'm starting up..."
 	println greeting
-
-
-	println "This is the httpRequest"
-	
-	
-	
 	
 /*	def response = httpRequest 'https://httpbin.org/get' //'http://localhost:8080/jenkins/api/json?pretty=true'
 	println("Status: "+response.status)
