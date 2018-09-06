@@ -1,0 +1,21 @@
+// Simon 04/09/2018
+
+node{
+    stage("Init"){
+        echo "SBF script initialising"
+        def inputParm = params.env
+        echo inputParm
+    }
+	stage("Webservice"){
+		echo "This is the httpRequest"
+        def response = httpRequest 'https://httpbin.org/get' //'http://localhost:8080/jenkins/api/json?pretty=true'
+        println("Status: "+response.status)
+        println("Content: "+response.content)   
+        echo "This is the curl"
+        def respCurl = "curl -v http://httpbin.org/get".execute().text 
+         println respCurl
+    }
+	stage("Ending"){
+	    echo "Ending now see you later."
+	}
+}
