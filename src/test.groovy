@@ -1,9 +1,45 @@
 import groovy.json.JsonSlurper
+import java.io.FileOutputStream
+import java.io.OutputStream
+import org.apache.commons.net.ftp.FTPClient
 
 // Simon 04/09/2018
 
 	def greeting = "Hello World, I'm starting up..."
 	println greeting
+	
+	println "About to connect"
+	new FTPClient().with{
+		def remoteServer = "localhost"
+		int reply
+		connect remoteServer
+		reply = getReplyCode();
+		println "Response from connect: " + reply
+		if (reply==220) {  
+			println "Connected to: " + remoteServer }
+			else {
+				println "Connection failed: " + reply
+//				exit 20
+			}
+		setFileType(ASCII_FILE_TYPE)
+		
+		enterLocalPassiveMode()
+		login "sbf","wt11mg34"
+		reply = getReplyCode();
+		println "Response from login: " + reply
+		reply = getReplyCode();
+		
+		changeWorkingDirectory "/home/sbf/ftp/"
+		def incomingFile = new File("remote.text")
+		incomingFile.withOutputStream { ostream -> retrieveFile "remote.text", ostream }
+		def outputFile = "/home/sbf/local/local.text"
+		OutputStream out = new FileOutputStream(outputFile)
+		out.write(999)
+		disconnect()
+		
+	}
+	
+	 
 	
 /*	def response = httpRequest 'https://httpbin.org/get' //'http://localhost:8080/jenkins/api/json?pretty=true'
 	println("Status: "+response.status)
